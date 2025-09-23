@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+         <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blood Donors — Register & Directory</title>
+
+  <!-- Minimal, pragmatic styles for a clean skeleton -->
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#ffffff; --accent:#c62828; --muted:#6b7280;
+      --gap:1rem; --radius:12px; --max-width:1100px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#111;line-height:1.45}
+    .container{max-width:var(--max-width);margin:24px auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    h1{margin:0;font-size:1.25rem}
+    .hero{background:linear-gradient(90deg, rgba(198,40,40,0.06), transparent);padding:16px;border-radius:10px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:var(--gap);margin-top:16px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+    /* Donor directory */
+    .panel{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:0 6px 20px rgba(12,12,20,0.06)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+    .controls input[type="search"], .controls select{padding:10px;border:1px solid #e6e9ef;border-radius:8px;min-width:160px}
+    .donor-list{display:grid;gap:10px}
+    .donor{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid #f0f0f2}
+    .avatar{width:56px;height:56px;border-radius:50%;background:#efefef;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:600}
+    .meta{flex:1}
+    .meta h3{margin:0;font-size:1rem}
+    .meta p{margin:4px 0 0;font-size:0.875rem;color:var(--muted)}
+    .badge{background:#fff;border:1px solid #eee;padding:6px 8px;border-radius:999px;font-size:0.8rem}
+    /* Right column: registration + stats */
+    form .field{display:flex;flex-direction:column;margin-bottom:10px}
+    label{font-size:0.85rem;margin-bottom:6px}
+    input, select, textarea{padding:10px;border-radius:8px;border:1px solid #e6e9ef}
+    button{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
+    button.secondary{background:#fff;color:var(--accent);border:1px solid rgba(198,40,40,0.12)}
+    .small{font-size:0.85rem;color:var(--muted)}
+    footer{margin-top:22px;text-align:center;color:var(--muted);font-size:0.85rem}
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header aria-label="Page header">
+      <div>
+        <h1>Blood Donors Directory</h1>
+        <p class="small">Register as a donor or find nearby donors by blood group and location.</p>
+      </div>
+      <div class="small" aria-hidden="true">Last updated: <!-- JS can inject real datetime --> </div>
+    </header>
+
+    <section class="hero panel" aria-labelledby="hero-title">
+      <h2 id="hero-title" style="margin:0 0 8px 0">Save lives — register as a donor</h2>
+      <p class="small" style="margin:0">This directory is a voluntary registry to connect qualified donors with hospitals, clinics, and donation drives. Data privacy: contact details are shared only with verified requesters.</p>
+    </section>
+
+    <div class="grid" aria-live="polite">
+      <!-- LEFT: Directory & Controls -->
+      <aside class="panel" aria-label="Donor directory">
+        <div class="controls" role="search">
+          <input type="search" id="search" placeholder="Search by name or city" aria-label="Search donors by name or city">
+          <select id="bloodFilter" aria-label="Filter by blood group">
+            <option value="">All blood groups</option>
+            <option value="A+">A+</option><option value="A-">A-</option>
+            <option value="B+">B+</option><option value="B-">B-</option>
+            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            <option value="O+">O+</option><option value="O-">O-</option>
+          </select>
+          <select id="availability" aria-label="Filter by availability">
+            <option value="">Any availability</option>
+            <option value="available">Available</option>
+            <option value="on-hold">On hold</option>
+          </select>
+
+          <!-- Integration hooks: exportCSV() and refreshList() -->
+          <button type="button" onclick="exportCSV()">Export CSV</button>
+          <button type="button" class="secondary" onclick="refreshList()">Refresh</button>
+        </div>
+
+        <!-- Donor list (populated by JS) -->
+        <div id="donorList" class="donor-list" aria-live="polite">
+          <!-- Example donor (template) -->
+          <article class="donor" data-blood="O+" data-city="Nairobi" role="article" aria-label="Donor John Doe, blood group O plus">
+            <div class="avatar" aria-hidden="true">JD</div>
+            <div class="meta">
+              <h3>John Doe <span class="badge">O+</span></h3>
+              <p class="small">Nairobi • 29 years • Last donated: 2025-06-10</p>
+            </div>
+            <div>
+              <!-- Action buttons would trigger contact flow (server-verified) -->
+              <button type="button" onclick="requestContact(this)">Request Contact</button>
+            </div>
+          </article>
+
+          <!-- More donor entries will be appended dynamically via JS -->
+        </div>
+
+        <div style="margin-top:12px;text-align:center;color:var(--muted)" class="small">
+          Tip: Click "Request Contact" to start a verified requester flow.
+        </div>
+      </aside>
+
+      <!-- RIGHT: Registration & Stats -->
+      <section class="panel" aria-label="Register as donor">
+        <h3 style="margin-top:0">Register as a donor</h3>
+
+        <!-- Form: integrate with backend endpoint: POST /api/donors or similar -->
+        <form id="donorForm" onsubmit="return submitDonorForm(event)" novalidate>
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" type="text" required placeholder="Jane Doe">
+          </div>
+
+          <div class="field">
+            <label for="email">Email (optional)</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com">
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input id="phone" name="phone" type="tel" required placeholder="+2547XXXXXXXX">
+          </div>
+
+          <div class="field">
+            <label for="bloodGroup">Blood group</label>
+            <select id="bloodGroup" name="bloodGroup" required>
+              <option value="">Select blood group</option>
+              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="city">City / Town</label>
+            <input id="city" name="city" type="text" placeholder="e.g., Mombasa" required>
+          </div>
+
+          <div class="field">
+            <label for="notes">Notes (medical history / restrictions)</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Optional: e.g., never donated, medication, etc."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="consent" class="small">
+              <input id="consent" name="consent" type="checkbox" required> I consent to store my contact details for verified donation requests.
+            </label>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center">
+            <button type="submit">Register</button>
+            <button type="button" class="secondary" onclick="clearForm()">Clear</button>
+          </div>
+
+          <p id="formMsg" class="small" aria-live="polite" style="margin-top:8px"></p>
+        </form>
+
+        <hr style="margin:16px 0">
+
+        <!-- Simple stats block — dynamic via JS -->
+        <div aria-label="Directory statistics">
+          <p class="small"><strong id="totalDonors">—</strong> Registered donors</p>
+          <p class="small">Last synced: <span id="lastSynced">—</span></p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <p>Operational notes: Ensure GDPR/Kenya Data Protection compliance before sharing personal contact information. Use server-side verification for requester identities.</p>
+    </footer>
+  </div>
+
+  <!-- Minimal client behavior (skeleton JS) -->
+  <script>
+    // Mock dataset (replace with fetch('/api/donors') from server)
+    const donors = [
+      {id:1,name:'John Doe',blood:'O+',city:'Nairobi',age:29,lastDonated:'2025-06-10',phone:'+254700000001'},
+      {id:2,name:'Aisha Kamau',blood:'A-',city:'Mombasa',age:32,lastDonated:'2024-12-01',phone:'+254700000002'}
+    ];
+
+    // Populate list on load
+    function renderDonors(list=donors){
+      const container = document.getElementById('donorList');
+      container.innerHTML = '';
+      list.forEach(d => {
+        const article = document.createElement('article');
+        article.className = 'donor';
+        article.setAttribute('data-blood', d.blood);
+        article.setAttribute('data-city', d.city);
+        article.setAttribute('role', 'article');
+        article.innerHTML = `
+          <div class="avatar" aria-hidden="true">${initials(d.name)}</div>
+          <div class="meta">
+            <h3>${escapeHtml(d.name)} <span class="badge">${d.blood}</span></h3>
+            <p class="small">${escapeHtml(d.city)} • ${d.age} years • Last donated: ${d.lastDonated}</p>
+          </div>
+          <div>
+            <button type="button" onclick="requestContactById(${d.id})">Request Contact</button>
+          </div>
+        `;
+        container.appendChild(article);
+      });
+      document.getElementById('totalDonors').textContent = list.length;
+      document.getElementById('lastSynced').textContent = new Date().toLocaleString();
+    }
+
+    function initials(name){
+      return name.split(' ').map(s=>s[0]||'').slice(0,2).join('').toUpperCase();
+    }
+
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    // Form submission (client-side skeleton)
+    async function submitDonorForm(e){
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        name: form.fullName.value.trim(),
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim(),
+        blood: form.bloodGroup.value,
+        city: form.city.value.trim(),
+        notes: form.notes.value.trim()
+      };
+      // TODO: Replace with real POST to backend and proper validation
+      donors.push({...data, id:Date.now(), age: null, lastDonated: 'N/A'});
+      renderDonors();
+      form.reset();
+      document.getElementById('formMsg').textContent = 'Registered locally (demo). Integrate POST /api/donors to persist.';
+      return false;
+    }
+
+    // Filter/search helpers
+    document.getElementById('search').addEventListener('input', applyFilters);
+    document.getElementById('bloodFilter').addEventListener('change', applyFilters);
+    document.getElementById('availability').addEventListener('change', applyFilters);
+
+    function applyFilters(){
+      const q = document.getElementById('search').value.toLowerCase();
+      const bg = document.getElementById('bloodFilter').value;
+      const avail = document.getElementById('availability').value;
+      const filtered = donors.filter(d => {
+        const matchesQ = !q || d.name.toLowerCase().includes(q) || (d.city && d.city.toLowerCase().includes(q));
+        const matchesB = !bg || d.blood === bg;
+        const matchesAvail = !avail || (avail === 'available' ? true : true); // placeholder
+        return matchesQ && matchesB && matchesAvail;
+      });
+      renderDonors(filtered);
+    }
+
+    // Export CSV skeleton
+    function exportCSV(){
+      const rows = [['Name','Phone','Blood Group','City','Last Donated']];
+      donors.forEach(d => rows.push([d.name, d.phone || '', d.blood, d.city || '', d.lastDonated || '']));
+      const csv = rows.map(r => r.map(cell => `"${String(cell).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'donors.csv'; document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function refreshList(){
+      // Placeholder: issue fetch('/api/donors') to refresh dataset
+      renderDonors();
+      document.getElementById('formMsg').textContent = 'Refreshed (demo). Implement server sync.';
+    }
+
+    function clearForm(){ document.getElementById('donorForm').reset(); document.getElementById('formMsg').textContent=''; }
+
+    function requestContact(btn){
+      // UI placeholder: disable and show pending state
+      btn.disabled = true;
+      btn.textContent = 'Requested';
+      // Real implementation: send verification request to server to exchange contact info securely.
+    }
+
+    function requestContactById(id){
+      const d = donors.find(x=>x.id===id);
+      if(!d) return alert('Donor not found');
+      // Replace with server-side verified request flow
+      alert('Contact request sent to ' + d.name + ' (demo).');
+    }
+
+    // init
+    renderDonors();
+  </script>
+</body>
+</html>
+

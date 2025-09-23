@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Settings - Blood Link</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f9f9f9; }
+    header { background: #c01414; color: #fff; padding: 1em; text-align: center; }
+    main { padding: 2em; max-width: 800px; margin: auto; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-top: 2em; border-radius: 8px; }
+    h2 { margin-top: 1.5em; color: #333; }
+    form { display: flex; flex-direction: column; gap: 1em; }
+    label { font-weight: bold; }
+    input, select { padding: 0.75em; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; }
+    button { padding: 0.75em; background: #c01414; color: #fff; border: none; cursor: pointer; font-size: 1em; border-radius: 5px; }
+    button:hover { background: #a51212; }
+    section { margin-bottom: 2em; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Admin Settings</h1>
+  </header>
+
+  <main>
+    <!-- Profile Settings -->
+    <section>
+      <h2>Profile Settings</h2>
+      <form>
+        <label for="name">Admin Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter full name">
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter email address">
+
+        <button type="submit">Update Profile</button>
+      </form>
+    </section>
+
+    <!-- Change Password -->
+    <section>
+      <h2>Change Password</h2>
+      <form>
+        <label for="current-password">Current Password</label>
+        <input type="password" id="current-password" name="current-password">
+
+        <label for="new-password">New Password</label>
+        <input type="password" id="new-password" name="new-password">
+
+        <label for="confirm-password">Confirm New Password</label>
+        <input type="password" id="confirm-password" name="confirm-password">
+
+        <button type="submit">Change Password</button>
+      </form>
+    </section>
+
+    <!-- System Settings -->
+    <section>
+      <h2>System Settings</h2>
+      <form>
+        <label for="theme">Dashboard Theme</label>
+        <select id="theme" name="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+
+        <label for="notifications">Email Notifications</label>
+        <select id="notifications" name="notifications">
+          <option value="enabled">Enabled</option>
+          <option value="disabled">Disabled</option>
+        </select>
+
+        <button type="submit">Save Settings</button>
+      </form>
+    </section>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register – Blood-link</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="register.css">
+    
+</head>
+<body>
+    <div class="main-container centered-flex">
+        <div class="form-container register-form-container">
+            <div class="icon fa fa-user-plus"></div>
+            <form class="centered-flex register-form" id="register-form">
+                <div class="title register-title">CREATE ACCOUNT</div>
+                <div class="msg" id="error-msg"></div>
+                
+                <div class="field">
+                    <span class="field-label">Full Name</span>
+                    <input type="text" placeholder="Enter your full name" id="fullname" required>
+                    <span class="fa fa-user"></span>
+                </div>
+                
+                <div class="field">
+                    <span class="field-label">Email Address</span>
+                    <input type="email" placeholder="Enter your email" id="email" required>
+                    <span class="fa fa-envelope"></span>
+                </div>
+                
+                <div class="field">
+                    <span class="field-label">Username</span>
+                    <input type="text" placeholder="Choose a username" id="username" required>
+                    <span class="fa fa-user-circle"></span>
+                </div>
+                
+                <div class="field">
+                    <span class="field-label">Password</span>
+                    <input type="password" placeholder="Create a password" id="password" required>
+                    <span class="fa fa-lock"></span>
+                </div>
+                
+                <div class="field">
+                    <span class="field-label">Confirm Password</span>
+                    <input type="password" placeholder="Confirm your password" id="confirm-password" required>
+                    <span class="fa fa-lock"></span>
+                </div>
+                
+                <div class="field">
+                    <span class="field-label">Blood Type</span>
+                    <select id="blood-type" required>
+                        <option value="" disabled selected>Select your blood type</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                    <span class="fa fa-tint"></span>
+                </div>
+                
+                <div class="field">
+                    <span class="field-label">Date of Birth</span>
+                    <input type="date" id="dob" required>
+                    <span class="fa fa-calendar"></span>
+                </div>
+                
+                <div class="action centered-flex">
+                    <label for="terms" class="centered-flex">
+                        <input type="checkbox" id="terms" required> 
+                        <span>I agree to the <a href="#">Terms & Conditions</a></span>
+                    </label>
+                </div>
+                
+                <div class="btn-container">
+                    <button type="submit" id="register-btn">Register</button>
+                </div>
+                
+                <div class="login">Already have an Account?<a href="login.html"> Login</a></div>
+            </form>
+        </div>
+    </div>
+        
+    <script src="userscript.js"></script>
+</body>
+</html>

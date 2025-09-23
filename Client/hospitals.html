@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitals - Blood Link</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+    header, footer {
+      background: #c01414;
+      color: #fff;
+      text-align: center;
+      padding: 1em 0;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5em;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      padding: 2em;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h2 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 1em;
+    }
+    .hospital-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5em;
+    }
+    .hospital-card {
+      background: #fff;
+      padding: 1em;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .hospital-card h3 {
+      margin-top: 0;
+      color: #c01414;
+    }
+    .hospital-card p {
+      margin: 0.5em 0;
+      color: #444;
+    }
+    footer p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hospitals</h1>
+    <nav>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="hospitals.html">Hospitals</a></li>
+        <li><a href="contactus.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Partner Hospitals</h2>
+    <section class="hospital-list">
+      <article class="hospital-card">
+        <h3>Kenyatta National Hospital</h3>
+        <p><strong>Location:</strong> Nairobi, Kenya</p>
+        <p><strong>Contact:</strong> +254 123 456 789</p>
+        <p><strong>Email:</strong> info@knh.or.ke</p>
+      </article>
+
+      <article class="hospital-card">
+        <h3>Aga Khan University Hospital</h3>
+        <p><strong>Location:</strong> Nairobi, Kenya</p>
+        <p><strong>Contact:</strong> +254 987 654 321</p>
+        <p><strong>Email:</strong> info@akuh.org</p>
+      </article>
+
+      <!-- Add more hospitals here -->
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Blood Link. All rights reserved.</p>
+  </footer>
+</body>
+</html>

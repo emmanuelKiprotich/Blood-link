@@ -1,0 +1,260 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'calibri', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000000;
+            color: #e0e0e0;
+        }
+
+        .main-container {
+            min-height: 100vh;
+            min-width: 450px;
+            padding: 20px;
+        }
+
+        .centered-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Form Container */
+        .form-container {
+            width: 450px;
+            display: grid;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .register-form-container {
+            height: auto;
+            min-height: 650px;
+        }
+
+        .icon {
+            position: absolute;
+            width: 85px;
+            font-size: 50px;
+            display: grid;
+            height: 85px;
+            place-content: center;
+            border: 1px solid #3a3a3a;
+            z-index: 1;
+            justify-self: center;
+            border-radius: 50%;
+            background: #0e0e0e;
+            box-shadow: 0 0 15px rgba(70, 130, 180, 0.3);
+        }
+
+        .fa {
+            color: #a2a2a2;
+        }
+
+        /* Forms */
+        form {
+            flex-direction: column;
+            padding: 30px 25px 20px;
+            border-radius: 20px;
+            background: rgba(25, 25, 25, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            width: 100%;
+            top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .register-form {
+            height: auto;
+            overflow-y: visible;
+            padding-top: 50px;
+        }
+
+        .title {
+            position: relative;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .register-title {
+            margin: 20px 0 25px;
+        }
+
+        .msg {
+            color: #ff5252;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        /* Form Fields */
+        .field {
+            display: flex;
+            position: relative;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .field .fa {
+            position: absolute;
+            font-size: 16px;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7d7d7d;
+        }
+
+        input:-webkit-autofill,
+        select:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+            -webkit-text-fill-color: #d2d2d2 !important;
+        }
+
+        form input, form select {
+            display: block;
+            outline: none;
+            width: 100%;
+            border: none;
+            font-size: 16px;
+            color: #e0e0e0;
+            caret-color: #4a8cd6;
+            background: transparent;
+            padding: 12px 30px 8px 0;
+            border-bottom: 1px solid #555;
+            transition: all 0.3s ease;
+        }
+
+        form input:focus, form select:focus {
+            border-bottom: 1px solid #4a8cd6;
+        }
+
+        form input::placeholder, form select::placeholder {
+            color: #7d7d7d;
+        }
+
+        form select {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        /* Form Actions */
+        .action {
+            justify-content: flex-start;
+            width: 100%;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        .action label {
+            cursor: pointer;
+            color: #a2a2a2;
+            display: flex;
+            align-items: center;
+        }
+
+        .action input {
+            width: auto;
+            margin: 0 8px 0 0;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4a8cd6;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #6ba6e8;
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .btn-container {
+            padding: 10px 0;
+            transition: .2s linear;
+            width: 100%;
+        }
+
+        #register-btn {
+            padding: 12px 20px;
+            border: none;
+            background: linear-gradient(to right, #2563ab, #1e4a7a);
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #register-btn:hover {
+            background: linear-gradient(to right, #2d74c4, #2563ab);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        #register-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer Links */
+        .login {
+            color: #a2a2a2;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 15px;
+        }
+
+        /* Animation Classes */
+        .shift-left {
+            transform: translateX(-120%);
+        }
+
+        .shift-right {
+            transform: translateX(120%);
+        }
+
+        .shift-top {
+            transform: translateY(-150%);
+        }
+
+        .shift-bottom {
+            transform: translateY(150%);
+        }
+
+        .no-shift {
+            transform: translate(0%, 0%);
+        }
+
+        /* Date field icon fix */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.6);
+            cursor: pointer;
+        }
+
+        /* Label for better UX */
+        .field-label {
+            position: absolute;
+            top: -18px;
+            left: 0;
+            font-size: 12px;
+            color: #a2a2a2;
+        }
